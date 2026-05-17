@@ -9,11 +9,19 @@
     "clean": "rm -rf dist",
     "test": "echo \"No tests configured\""
   },
-  "keywords": ["nestjs", "openapi", "oas", "swagger", "redoc", "documentation"],
+  "keywords": [
+    "nestjs",
+    "openapi",
+    "oas",
+    "swagger",
+    "redoc",
+    "documentation"
+  ],
   "author": "InSantoshMahto",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "latest"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

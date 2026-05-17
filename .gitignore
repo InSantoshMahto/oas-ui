@@ -1,21 +1,14 @@
 # Node
 node_modules/
 dist/
-package-lock.json
-yarn.lock
-.pnpm-debug.log
 
 # Env
-.env
-.env.local
-.env.*.local
+.env*
+!.env.example
 
 # Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+/logs
+*.log
 
 # OS
 .DS_Store
@@ -24,14 +17,10 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
-*.sublime-workspace
-*.sublime-project
+.zed/
 
 # TypeScript
 *.tsbuildinfo
 
 # Coverage
 coverage/
-
-# Examples
-examples/**/node_modules/
