@@ -1,4 +1,4 @@
-import { RendererAdapter } from './renderer-adapter.interface';
+import { RendererAdapter } from "./renderer-adapter.interface";
 
 function scalarHtml(specUrl: string, customPath?: string) {
   // The scalar adapter is intentionally minimal. It prefers a user-provided custom UI (customPath)
@@ -34,23 +34,28 @@ function scalarHtml(specUrl: string, customPath?: string) {
 }
 
 export const ScalarAdapter: RendererAdapter = {
-  name: 'scalar',
+  name: "scalar",
   serve(app: any, path: string, _docProvider: any, options?: any) {
-    const expressApp: any = (function getExpressInstance(a: any) {
-      if (!a) throw new Error('App instance is required');
-      if (typeof a.getHttpAdapter === 'function') {
+    const expressApp: any = (function getAppInstance(a: any) {
+      if (!a) throw new Error("App instance is required");
+      if (typeof a.getHttpAdapter === "function") {
         const adapter = a.getHttpAdapter();
-        if (adapter && typeof adapter.getInstance === 'function') return adapter.getInstance();
+        if (adapter && typeof adapter.getInstance === "function")
+          return adapter.getInstance();
         return adapter;
       }
-      if (typeof a.get === 'function' && typeof a.use === 'function') return a;
-      throw new Error('Unsupported app instance; only Nest (Express) or plain Express apps are supported');
+      if (typeof a.get === "function") return a;
+      throw new Error(
+        "Unsupported app instance; only Nest (Express/Fastify) or plain Express/Fastify apps are supported",
+      );
     })(app);
 
-    const normalized = path.endsWith('/') ? path.slice(0, -1) : path;
+    const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
     expressApp.get(normalized, (_req: any, res: any) => {
-      const specUrl = normalized + '/openapi.json';
-      res.type('text/html').send(scalarHtml(specUrl, options && options.customUiPath));
+      const specUrl = normalized + "/openapi.json";
+      res
+        .type("text/html")
+        .send(scalarHtml(specUrl, options && options.customUiPath));
     });
   },
 };

@@ -4,7 +4,6 @@ This project follows the Contributor Covenant v2.0. All contributors are expecte
 
 https://www.contributor-covenant.org/version/2/0/code_of_conduct/
 
-Reporting
-If you experience or witness unacceptable behavior, please contact the maintainers with as much detail as possible. Replace the contact below with an appropriate email for your project.
+## Reporting
 
-Contact: maintainers@insantoshmahto.dev
+If you experience or witness unacceptable behavior, please contact the maintainers at conduct@insantoshmahto.dev with as much detail as possible. All reports will be kept confidential and will be reviewed and investigated promptly.
