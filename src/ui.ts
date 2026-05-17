@@ -25,9 +25,8 @@ function getServerInstance(app: any) {
       return adapter.getInstance();
     return adapter;
   }
-  // Plain Express/Fastify apps expose get/use
-  if (typeof app.get === "function" && typeof app.use === "function")
-    return app;
+  // Plain Express/Fastify apps expose route methods (get, post, etc.)
+  if (typeof app.get === "function") return app;
   throw new Error(
     "Unsupported application instance; only Nest (Express/Fastify) or plain Express/Fastify apps are supported",
   );
@@ -53,14 +52,7 @@ async function resolveDocument(
 function sendJsonResponse(res: any, obj: any) {
   if (!res) throw new Error("Response object is required");
   if (typeof res.json === "function") return res.json(obj); // Express
-  if (typeof res.send === "function") {
-    // Fastify reply supports send(obj)
-    try {
-      return res.send(obj);
-    } catch (e) {
-      // ignore and fallback
-    }
-  }
+  if (typeof res.send === "function") return res.send(obj);
   if (typeof res.type === "function" && typeof res.send === "function")
     return res.type("application/json").send(JSON.stringify(obj));
   if (typeof res.writeHead === "function" && typeof res.end === "function") {
@@ -75,12 +67,7 @@ function sendYamlResponse(res: any, yamlStr: string) {
   if (typeof res.type === "function" && typeof res.send === "function")
     return res.type("text/yaml").send(yamlStr);
   if (typeof res.header === "function" && typeof res.send === "function") {
-    try {
-      // Fastify reply: header(name, value)
-      res.header("content-type", "text/yaml");
-    } catch (e) {
-      // ignore
-    }
+    res.header("content-type", "text/yaml");
     return res.send(yamlStr);
   }
   if (typeof res.writeHead === "function" && typeof res.end === "function") {

@@ -1,4 +1,4 @@
-import { RendererAdapter } from './renderer-adapter.interface';
+import { RendererAdapter } from "./renderer-adapter.interface";
 
 function swaggerHtml(specUrl: string) {
   return `<!doctype html>
@@ -25,28 +25,30 @@ function swaggerHtml(specUrl: string) {
       };
     </script>
   </body>
-</html>`
-    .replace('%SPEC_URL%', specUrl);
+</html>`.replace("%SPEC_URL%", specUrl);
 }
 
 export const SwaggerAdapter: RendererAdapter = {
-  name: 'swagger',
+  name: "swagger",
   serve(app: any, path: string) {
-    const expressApp: any = (function getExpressInstance(a: any) {
-      if (!a) throw new Error('App instance is required');
-      if (typeof a.getHttpAdapter === 'function') {
+    const expressApp: any = (function getAppInstance(a: any) {
+      if (!a) throw new Error("App instance is required");
+      if (typeof a.getHttpAdapter === "function") {
         const adapter = a.getHttpAdapter();
-        if (adapter && typeof adapter.getInstance === 'function') return adapter.getInstance();
+        if (adapter && typeof adapter.getInstance === "function")
+          return adapter.getInstance();
         return adapter;
       }
-      if (typeof a.get === 'function' && typeof a.use === 'function') return a;
-      throw new Error('Unsupported app instance; only Nest (Express) or plain Express apps are supported');
+      if (typeof a.get === "function") return a;
+      throw new Error(
+        "Unsupported app instance; only Nest (Express/Fastify) or plain Express/Fastify apps are supported",
+      );
     })(app);
 
-    const normalized = path.endsWith('/') ? path.slice(0, -1) : path;
+    const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
     expressApp.get(normalized, (req: any, res: any) => {
-      const specUrl = normalized + (normalized.endsWith('/') ? '' : '') + '/openapi.json';
-      res.type('text/html').send(swaggerHtml(specUrl));
+      const specUrl = normalized + "/openapi.json";
+      res.type("text/html").send(swaggerHtml(specUrl));
     });
   },
 };
