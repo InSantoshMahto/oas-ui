@@ -1,4 +1,5 @@
-# @insantoshmahto/oas-ui
+# oas-ui
+Open API Spec UI for NestJS
 
 Pluggable OpenAPI UI runner for Nest/Express/Fastify applications.
 
